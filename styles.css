@@ -14,8 +14,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: url(aurora.jpg);
-  background-size: cover;
+  background: linear-gradient(63deg, rgb(0, 92, 151) 0%, rgb(54, 55, 149) 100%);
   color: var(--gray);
 }
 
