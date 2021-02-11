@@ -4,30 +4,22 @@ const itemsFin = document.querySelector(".items__fin");
 const form = document.querySelector(".form");
 const input = document.getElementById("addForm");
 
+const TODOS = "todos";
 
-function addTasks(){
-    //사용자가 입력한 text를 받아옴
-    const text = input.value;    
-    //새로운 아이템을 만듦
-    const item = createItems(text);
-    // 컨테이너 안에 새로운 아이템 추가 
-    items.appendChild(item);
-    // 인풋 초기화
-    input.value = "";
-    input.focus();
+const toDos = [];
+
+function saveTodo(){
+    localStorage.setItem(TODOS, JSON.stringify(toDos));
 }
 
-function createItems(text){
+function paintTodo(text){    
     const itemRow = document.createElement("li");
     itemRow.setAttribute("class", "item__row");
-
     const item = document.createElement("div");
     item.setAttribute("class", "item");
-
     const name = document.createElement("span");
     name.setAttribute("class", "item__name");
     name.innerHTML = text;
-
     const delBtn = document.createElement("button");
     delBtn.setAttribute("class", "delBtn");
     delBtn.innerHTML = `<i class="fas fa-times"></i>`;
@@ -37,8 +29,7 @@ function createItems(text){
         }else{
             itemsFin.removeChild(itemRow);
         }    
-    })
-        
+    });        
     const checkBtn = document.createElement("button");    
     checkBtn.setAttribute("class", "checkBtn");
     checkBtn.innerHTML = `<i class="fas fa-check"></i>`;
@@ -47,8 +38,7 @@ function createItems(text){
         itemsFin.appendChild(itemRow);
         item.removeChild(checkBtn);
         item.appendChild(returnBtn);
-    })
-    
+    })    
     const returnBtn = document.createElement("button");
     returnBtn.setAttribute("class", "returnBtn");
     returnBtn.innerHTML = `<i class="fas fa-caret-left"></i>`;
@@ -57,19 +47,46 @@ function createItems(text){
         items.appendChild(itemRow);
         item.removeChild(returnBtn);
         item.appendChild(checkBtn);
-    })
-    
+    })    
+
+    const newId = toDos.length + 1;
+    itemRow.id = newId;
+    const toDoObj = {
+        text: text,
+        id: newId
+    }    
+
     item.appendChild(name);
     item.appendChild(delBtn);
     item.appendChild(checkBtn);
-    itemRow.appendChild(item);
+    itemRow.appendChild(item);    
+    toDos.push(toDoObj);
+    saveTodo();
     return itemRow;
 }
 
+function handleSubmit(event){
+    event.preventDefault();
+    const currentValue = input.value;
+    const item = paintTodo(currentValue);
+    items.appendChild(item);
+    input.value = "";
+    input.focus();
+}
 
-form.addEventListener("keydown",function(e){
-    if(e.keyCode == 13){
-        e.preventDefault();
-        addTasks();
-    }
-})
+function loadItems(){
+    const loadedTodos = localStorage.getItem(TODOS);
+    if(loadedTodos !== null){
+        const parsedToDos = JSON.parse(loadedTodos);
+        parsedToDos.forEach(function(toDo){
+            paintTodo(toDo.text);
+        })
+}
+}
+
+function init(){
+loadItems();
+form.addEventListener("submit", handleSubmit);
+}
+
+init();
