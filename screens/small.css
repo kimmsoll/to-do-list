@@ -2,6 +2,11 @@
   .clock {
     font-size: 2.5em;
   }
+
+  input {
+    width: 50vw;
+  }
+
   .listBox {
     width: 70vw;
     height: 60vh;
