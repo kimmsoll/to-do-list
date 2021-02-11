@@ -14,7 +14,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: url(/images/1.jpg);
+  background: url(aurora.jpg);
   background-size: cover;
   color: var(--gray);
 }
