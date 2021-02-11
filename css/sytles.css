@@ -1,0 +1,124 @@
+@import '/css/screens/small.css';
+@import '/css/screens/big.css';
+@import '/css/screens/large.css';
+@import '/css/screens/biggest.css';
+@import '/css/reset.css';
+@import url('https://fonts.googleapis.com/css2?family=Poor+Story&display=swap');
+
+body {
+  font-family: 'Poor Story', cursive;
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: url(/images/1.jpg);
+  background-size: cover;
+  color: var(--gray);
+}
+
+.js-form,
+.form {
+  margin-bottom: 1.5em;
+}
+
+.js-greetings {
+  color: aliceblue;
+  font-size: 1.5em;
+  margin-bottom: 1.5em;
+}
+
+input {
+  font-family: 'Poor Story', cursive;
+  font-size: 1.2em;
+  border-style: none;
+  border-bottom: 1px solid var(--gray);
+  background-color: transparent;
+  transition: transform 0.7s ease-in-out;
+  color: aliceblue;
+}
+
+input::placeholder {
+  font-family: 'Poor Story', cursive;
+  color: var(--gray);
+}
+
+input:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.clock {
+  color: aliceblue;
+  margin-bottom: 0.2em;
+}
+
+.date {
+  font-size: 1.5em;
+  margin-bottom: 3em;
+}
+
+.listBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pending {
+  margin-bottom: 0.5em;
+}
+
+.pending,
+.finished {
+  height: 25vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  padding: 1.5em;
+  box-sizing: border-box;
+  color: aliceblue;
+  overflow-y: scroll;
+}
+
+.pending::-webkit-scrollbar,
+.finished::-webkit-scrollbar {
+  display: none;
+}
+
+.pending > h2,
+.finished > h2 {
+  margin-bottom: 1em;
+  position: fixed;
+}
+
+.items__pen > li,
+.items__fin > li {
+  font-size: 1.5em;
+  margin-bottom: 0.2em;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.delBtn,
+.checkBtn,
+.returnBtn {
+  width: 1.5em;
+  height: 1.5em;
+  border-style: none;
+  border-radius: 2px;
+  background-color: aliceblue;
+  padding: 1.5px;
+  box-sizing: border-box;
+  margin-left: 0.3em;
+}
+
+.delBtn:hover,
+.checkBtn:hover,
+.returnBtn:hover {
+  cursor: pointer;
+}

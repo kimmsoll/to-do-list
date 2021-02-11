@@ -1,0 +1,23 @@
+@media screen and (min-width: 1400px) and (max-width: 1950px) {
+  .clock {
+    font-size: 4em;
+  }
+
+  input {
+    width: 15vw;
+  }
+
+  .listBox {
+    width: 25vw;
+    height: 60vh;
+  }
+
+  .pending {
+    margin-bottom: 0.5em;
+  }
+
+  .pending,
+  .finished {
+    width: 25vw;
+  }
+}

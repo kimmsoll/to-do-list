@@ -1,0 +1,13 @@
+@media screen and (min-width: 280px) and (max-width: 768px) {
+  .clock {
+    font-size: 2.5em;
+  }
+  .listBox {
+    width: 70vw;
+    height: 60vh;
+  }
+  .pending,
+  .finished {
+    width: 70vw;
+  }
+}

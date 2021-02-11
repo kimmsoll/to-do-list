@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todolist</title>
+    <script src="https://kit.fontawesome.com/7bc825b445.js" crossorigin="anonymous"></script>
+    <link href="/css/sytles.css" rel="stylesheet"/>
+</head>
+<body>
+    <div class="clockContainer">
+        <div class="clock"></div>
+    </div>
+    <div class="dateContainer">
+        <div class="date"></div>
+    </div>
+    <form class="js-form forms">
+        <input type="text" placeholder=" What's your name?" maxlength="10">
+    </form>
+    <h3 class="js-greetings greetings"></h3>
+    <form class="form">
+        <input type="text" id="addForm" placeholder=" add task" maxlength="10">
+    </form>
+    <div class="listBox">
+        <div class="pending">
+            <h2>PENDING</h2>
+            <ul class="items__pen"></ul>                   
+        </div>
+        <div class="finished">
+            <h2>FINISHED</h2>
+            <ul class="items__fin"></ul>
+        </div>
+    </div>
+    <script src="todo.js"></script>
+    <script src="clock.js"></script>
+    <script src="greeting.js"></script>
+</body>
+</html>
