@@ -6,9 +6,8 @@ const IMG_NUM = 3;
 
 function paintImg(imgNum){
 const image = new Image();
-image.src = `/image/${imgNum + 1}.jpg`;
+image.src = `/image/${imgNum + 1}.jpeg`;
 image.classList.add("bgImage");
-image.style.backgroundSize = "700px 875px";
 body.prepend(image);
 }
 
