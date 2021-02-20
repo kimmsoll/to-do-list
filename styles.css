@@ -136,7 +136,8 @@ input:hover {
   border-style: none;
   border-radius: 2px;
   background-color: aliceblue;
-  padding: 1.5px;
+  padding: 0.1em;
+  text-align: center;
   box-sizing: border-box;
   margin-left: 0.3em;
 }
