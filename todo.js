@@ -1,92 +1,158 @@
 'use strict'
-const items = document.querySelector(".items__pen");
+
+const itemsPen = document.querySelector(".items__pen");
 const itemsFin = document.querySelector(".items__fin");
 const form = document.querySelector(".form");
-const input = document.getElementById("addForm");
+const input = document.querySelector("#addInput");
 
-const TODOS = "todos";
+const PENDING = "PENDING";
+const FINISHED = "FINISHED";
 
-const toDos = [];
+let pendingTasks, finishedTasks;
 
-function saveTodo(){
-    localStorage.setItem(TODOS, JSON.stringify(toDos));
+function getTaskObject(text){
+    return{
+        id: String(Date.now()),
+        text
+    };
 }
 
-function paintTodo(text){    
-    const itemRow = document.createElement("li");
-    itemRow.setAttribute("class", "item__row");
-    const item = document.createElement("div");
-    item.setAttribute("class", "item");
-    const name = document.createElement("span");
-    name.setAttribute("class", "item__name");
-    name.innerHTML = text;
+function savePending(text){
+    pendingTasks.push(text);
+}
+
+
+function removeFromPending(taskId){
+    pendingTasks = pendingTasks.filter((task)=>{
+        return task.id !== taskId;
+    })
+}
+
+function removeFromFinished(taskId){
+    finishedTasks = finishedTasks.filter((task)=>{
+        return task.id !== taskId;
+    })
+}
+
+function addToPending(task){
+    pendingTasks.push(task);
+}
+
+function addToFinished(task){
+    finishedTasks.push(task);
+}
+
+function findInPending(taskId){
+    return pendingTasks.find((task)=>{
+        return task.id === taskId;
+    })
+}
+
+function findInFinished(taskId){
+    return finishedTasks.find((task)=>{
+        return task.id === taskId;
+    })
+}
+
+function deleteItem(event){
+    const li = event.target.parentNode;
+    li.parentNode.removeChild(li);
+    removeFromPending(li.id);
+    removeFromFinished(li.id);
+    saveState();
+}
+
+function handleFinishClick(event){
+    const li = event.target.parentNode;
+    li.parentNode.removeChild(li);
+    const task = findInPending(li.id);
+    removeFromPending(li.id);
+    addToFinished(task);
+    printFinished(task);
+    saveState();
+}
+
+function handlebackClick(event){
+    const li = event.target.parentNode;
+    li.parentNode.removeChild(li);
+    const task = findInFinished(li.id);
+    removeFromFinished(li.id);
+    addToPending(task);
+    printPending(task);
+    saveState();
+}
+
+function createItems(task){
+    const li = document.createElement("li");
+    const span = document.createElement("span");
     const delBtn = document.createElement("button");
+    span.innerText = task.text;
+    delBtn.innerText = "✖";
     delBtn.setAttribute("class", "delBtn");
-    delBtn.innerHTML = `<i class="fas fa-times"></i>`;
-    delBtn.addEventListener("click", ()=>{
-        if(items.appendChild(itemRow)){
-            items.removeChild(itemRow);
-        }else{
-            itemsFin.removeChild(itemRow);
-        }    
-    });        
-    const checkBtn = document.createElement("button");    
+    delBtn.addEventListener("click", deleteItem);
+    li.append(span, delBtn);
+    li.id = task.id;
+    return li;
+}
+
+function printPending(text){
+    const li = createItems(text);
+    const checkBtn = document.createElement("button");
+    checkBtn.innerText = "✔";
     checkBtn.setAttribute("class", "checkBtn");
-    checkBtn.innerHTML = `<i class="fas fa-check"></i>`;
-    checkBtn.addEventListener("click", ()=>{
-        items.removeChild(itemRow);
-        itemsFin.appendChild(itemRow);
-        item.removeChild(checkBtn);
-        item.appendChild(returnBtn);
-    })    
+    checkBtn.addEventListener("click", handleFinishClick);
+    li.append(checkBtn);
+    itemsPen.appendChild(li);
+}
+
+function printFinished(text){
+    const li = createItems(text);
     const returnBtn = document.createElement("button");
+    returnBtn.innerText = "🔺";
     returnBtn.setAttribute("class", "returnBtn");
-    returnBtn.innerHTML = `<i class="fas fa-caret-left"></i>`;
-    returnBtn.addEventListener("click", ()=>{
-        itemsFin.removeChild(itemRow);
-        items.appendChild(itemRow);
-        item.removeChild(returnBtn);
-        item.appendChild(checkBtn);
-    })    
+    returnBtn.addEventListener("click", handlebackClick);
+    li.append(returnBtn);
+    itemsFin.appendChild(li);
+}
 
-    const newId = toDos.length + 1;
-    itemRow.id = newId;
-    const toDoObj = {
-        text: text,
-        id: newId
-    }    
+function saveState(){
+    localStorage.setItem(PENDING, JSON.stringify(pendingTasks));
+    localStorage.setItem(FINISHED, JSON.stringify(finishedTasks));
+}
 
-    item.appendChild(name);
-    item.appendChild(delBtn);
-    item.appendChild(checkBtn);
-    itemRow.appendChild(item);    
-    toDos.push(toDoObj);
-    saveTodo();
-    return itemRow;
+function loadState(){
+    pendingTasks = JSON.parse(localStorage.getItem(PENDING)) || [];
+    finishedTasks = JSON.parse(localStorage.getItem(FINISHED)) || [];
+}
+
+function restoreState(){
+    pendingTasks.forEach(function(task){
+        printPending(task);
+    });
+    finishedTasks.forEach(function(task){
+        printFinished(task);
+    });
 }
 
 function handleSubmit(event){
-    event.preventDefault();
-    const currentValue = input.value;
-    const item = paintTodo(currentValue);
-    items.appendChild(item);
-    input.value = "";
-    input.focus();
-}
-
-function loadItems(){
-    const loadedTodos = localStorage.getItem(TODOS);
-    if(loadedTodos !== null){
-        const parsedToDos = JSON.parse(loadedTodos);
-        parsedToDos.forEach(function(toDo){
-            paintTodo(toDo.text);
-        })
-}
+    if(input.value === ""){
+        event.preventDefault();  
+        input.focus();
+    } else{
+        event.preventDefault();
+        const taskObj = getTaskObject(input.value);
+        input.value = "";
+        input.focus();
+        printPending(taskObj);
+        savePending(taskObj);
+        saveState();
+    }
 }
 
 function init(){
-loadItems();
-form.addEventListener("submit", handleSubmit);
+    form.addEventListener("submit", handleSubmit);
+    loadState();
+    restoreState();
 }
 
 init();

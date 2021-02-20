@@ -115,16 +115,17 @@ input:hover {
   position: fixed;
 }
 
-.items__pen > li,
-.items__fin > li {
-  font-size: 1.5em;
-  margin-bottom: 0.2em;
+.items__pen,
+.items__fin {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
-.item {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
+.items__pen > li,
+.items__fin > li {
+  margin-bottom: 0.2em;
+  font-size: 1.1em;
 }
 
 .delBtn,
