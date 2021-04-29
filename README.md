@@ -1,4 +1,4 @@
-# 반응형 투두리스트
+# Responsive To-do-list
 
 ### 스택
 
