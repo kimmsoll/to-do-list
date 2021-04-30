@@ -110,10 +110,9 @@ input:hover {
   display: none;
 }
 
-.pending > h2,
-.finished > h2 {
-  margin-bottom: 1em;
-  position: fixed;
+.pending > span,
+.finished > span {
+  width: 100vw;
 }
 
 .items__pen,

@@ -10,6 +10,7 @@ const FINISHED = "FINISHED";
 
 let pendingTasks, finishedTasks;
 
+// taskObj 에 id 값을 넣는다.
 function getTaskObject(text){
     return{
         id: String(Date.now()),
@@ -17,6 +18,7 @@ function getTaskObject(text){
     };
 }
 
+// 가져온 taskObj 값을 pendingTasks 배열에 넣는다.
 function savePending(text){
     pendingTasks.push(text);
 }
@@ -42,6 +44,7 @@ function addToFinished(task){
     finishedTasks.push(task);
 }
 
+
 function findInPending(taskId){
     return pendingTasks.find((task)=>{
         return task.id === taskId;
@@ -62,6 +65,7 @@ function deleteItem(event){
     saveState();
 }
 
+// event.target 을 통해 
 function handleFinishClick(event){
     const li = event.target.parentNode;
     li.parentNode.removeChild(li);
@@ -82,6 +86,7 @@ function handlebackClick(event){
     saveState();
 }
 
+// taskObj 값을 받아 delBtn 을 가진 li 로 반환한다.
 function createItems(task){
     const li = document.createElement("li");
     const span = document.createElement("span");
@@ -95,6 +100,8 @@ function createItems(task){
     return li;
 }
 
+// 가져온 taskObj 값을 createItems 에 실행시켜 li 를 생성하고, Pending 에서 갖춰야 할 checkBtn 을 생성한다.
+// li 를 itemsPen 에 출력한다.
 function printPending(text){
     const li = createItems(text);
     const checkBtn = document.createElement("button");
@@ -105,6 +112,7 @@ function printPending(text){
     itemsPen.appendChild(li);
 }
 
+// 
 function printFinished(text){
     const li = createItems(text);
     const returnBtn = document.createElement("button");
@@ -115,6 +123,7 @@ function printFinished(text){
     itemsFin.appendChild(li);
 }
 
+// 로컬 저장소에 pendingTasks 와 finishedTasks 배열을 PENDING, FINISHED 의 value 로 저장한다.
 function saveState(){
     localStorage.setItem(PENDING, JSON.stringify(pendingTasks));
     localStorage.setItem(FINISHED, JSON.stringify(finishedTasks));
@@ -134,6 +143,8 @@ function restoreState(){
     });
 }
 
+// input.value 가 없으면 submit 되지 않게 한다.
+// input.value 가 있으면 taskObj 로 선언하고, printPending, savePending, saveState 한다.
 function handleSubmit(event){
     if(input.value === ""){
         event.preventDefault();  
